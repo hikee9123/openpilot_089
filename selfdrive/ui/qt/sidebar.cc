@@ -62,18 +62,19 @@ void Sidebar::updateState(const UIState &s) {
 
 
   QString strTempC = "HIGH\n";
-  QColor tempColor = danger_color;
+  QColor  tempColor = danger_color;
   auto ts = deviceState.getThermalStatus();
   if (ts == cereal::DeviceState::ThermalStatus::GREEN) {
+    strTempC = "GOOD\n";    
     tempColor = good_color;
-    strTempC = "GOOD\n";
   } else if (ts == cereal::DeviceState::ThermalStatus::YELLOW) {
+    strTempC = "OK\n";    
     tempColor = warning_color;
-    strTempC = "OK\n";
   }
 
 
-  strTempC.append( QVariant::fromValue(ItemStatus{QString("%1°C").arg((int)deviceState.getAmbientTempC()), tempColor}) );
+  //strTempC.append( QVariant::fromValue(ItemStatus{QString("%1°C").arg((int)deviceState.getAmbientTempC()), tempColor}) );
+  strTempC.append( QString("%1°C").arg((int)deviceState.getAmbientTempC()) );
   ItemStatus tempStatus = { strTempC, tempColor};
   setProperty("tempStatus", QVariant::fromValue(tempStatus));
 
