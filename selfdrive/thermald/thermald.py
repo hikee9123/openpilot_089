@@ -467,10 +467,10 @@ def thermald_thread():
     battery_changing = HARDWARE.get_battery_charging()
     usbOnline = HARDWARE.get_usb_present()
 
-    if pandaState is not None:
-      print( "  pandaState={} ".format( pandaState ) )
+    #if pandaState is not None:
+    #  print( "  pandaState={} ".format( pandaState ) )
 
-    print( "  usb_power={}  usbOnline={} battery_changing={}".format( usb_power, usbOnline, battery_changing ) )
+    #print( "  usb_power={}  usbOnline={} battery_changing={}".format( usb_power, usbOnline, battery_changing ) )
     if usbOnline and usb_power:
       power_monitor.charging_ctrl( msg, ts, 60, 40 )    
 
