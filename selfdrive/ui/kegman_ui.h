@@ -173,6 +173,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   } 
 
    //add battery temperature
+/*
   if( true )
   {
     char val_str[16];
@@ -195,7 +196,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         value_fontSize, label_fontSize, uom_fontSize );
     bb_ry = bb_y + bb_h;
   }
-
+*/
 
 
   //add grey panda GPS accuracy

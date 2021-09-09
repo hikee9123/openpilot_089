@@ -54,7 +54,7 @@ void Sidebar::updateState(const UIState &s) {
   auto last_ping = deviceState.getLastAthenaPingTime();
   if (last_ping == 0) {
     //connectStatus = params.getBool("PrimeRedirected") ? ItemStatus{"NO\nPRIME", danger_color} : ItemStatus{"CONNECT\nOFFLINE", warning_color};
-    connectstatus = ItemStatus{"CONNECT\nOFFLINE", warning_color};
+    connectStatus = ItemStatus{"CONNECT\nOFFLINE", warning_color};
   } else {
     connectStatus = nanos_since_boot() - last_ping < 80e9 ? ItemStatus{"CONNECT\nONLINE", good_color} : ItemStatus{"CONNECT\nERROR", danger_color};
   }
@@ -80,7 +80,7 @@ void Sidebar::updateState(const UIState &s) {
 
   // atom
   if (s.sm->updated("deviceState") || s.sm->updated("pandaState")) {
-    m_battery_img = s.scene.deviceState.getBatteryStatus() == "Charging" ? 1 : 0;
+    m_battery_img = s.scene.deviceState.getBatteryStatusDEPRECATED() == "Charging" ? 1 : 0;
     m_batteryPercent = s.scene.deviceState.getBatteryPercent();
     m_strip = s.scene.deviceState.getWifiIpAddress();
     repaint();
