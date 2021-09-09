@@ -173,13 +173,13 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   } 
 
    //add battery temperature
-/*
+
   if( true )
   {
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    float  batteryTemp = scene->deviceState.getBatteryTempC();
+    float  batteryTemp = scene->deviceState.getBatteryTempCDEPRECATED();
 
     if(batteryTemp > 40) {
       val_color = nvgRGBA(255, 188, 3, 200);
@@ -196,7 +196,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         value_fontSize, label_fontSize, uom_fontSize );
     bb_ry = bb_y + bb_h;
   }
-*/
+
 
 
   //add grey panda GPS accuracy
