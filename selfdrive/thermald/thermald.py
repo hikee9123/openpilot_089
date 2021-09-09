@@ -435,7 +435,7 @@ def thermald_thread():
       cloudlog.info(f"shutting device down, offroad since {off_ts}")
       # TODO: add function for blocking cloudlog instead of sleep
       HARDWARE.set_battery_charging(False)
-      time.sleep(20)
+      time.sleep(5)
       HARDWARE.shutdown()
 
     # If UI has crashed, set the brightness to reasonable non-zero value
