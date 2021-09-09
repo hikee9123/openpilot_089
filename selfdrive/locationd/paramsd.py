@@ -162,11 +162,7 @@ def main(sm=None, pm=None):
       else:
         steerRatio = learnerSteerRatio
 
-
-      if steerRatio > 19.5:
-        steerRatio = 19.5
-      elif steerRatio < 13.5:
-        steerRatio = 13.5
+      steerRatio = clip( steerRatio, 13.5, 19.5 )
 
       msg.liveParameters.posenetValid = True
       msg.liveParameters.sensorValid = True
