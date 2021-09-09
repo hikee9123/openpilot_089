@@ -155,13 +155,14 @@ def main(sm=None, pm=None):
       msg.logMonoTime = sm.logMonoTime['carState']
 
 
- 
-      dRate = 1.0
+      learnerSteerRatio  = float(x[States.STEER_RATIO])
       if modelSpeed:
         dRate = interp( modelSpeed, [200,450], [ 1, 0.9 ] )
+        steerRatio = learnerSteerRatio * dRate
+      else:
+        steerRatio = learnerSteerRatio
 
-      learnerSteerRatio  = float(x[States.STEER_RATIO])
-      steerRatio = learnerSteerRatio * dRate
+
       if steerRatio > 19.5:
         steerRatio = 19.5
       elif steerRatio < 13.5:
