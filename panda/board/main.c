@@ -729,7 +729,7 @@ void tick_handler(void) {
           }
 
 
-          // atom   SAFETY_NOOUTPUT
+          // atom   SAFETY_NOOUTPUT   SAFETY_SILENT
           if (current_safety_mode != SAFETY_NOOUTPUT) {
             set_safety_mode(SAFETY_NOOUTPUT, 0U);
           }
