@@ -160,13 +160,12 @@ def main(sm=None, pm=None):
       if modelSpeed:
         dRate = interp( modelSpeed, [200,450], [ 1, 0.9 ] )
 
-      steerRatio  = float(x[States.STEER_RATIO])
-     # print( "modelSpeed={:.3f} dRate={:.3f}".format(modelSpeed, dRate) );
-      steerRatio *= dRate
+      learnerSteerRatio  = float(x[States.STEER_RATIO])
+      steerRatio = learnerSteerRatio * dRate
       if steerRatio > 19.5:
         steerRatio = 19.5
-      elif steerRatio < 12:
-        steerRatio = 12
+      elif steerRatio < 13.5:
+        steerRatio = 13.5
 
       msg.liveParameters.posenetValid = True
       msg.liveParameters.sensorValid = True
@@ -184,7 +183,7 @@ def main(sm=None, pm=None):
       if sm.frame % 1200 == 0:  # once a minute
         params = {
           'carFingerprint': CP.carFingerprint,
-          'steerRatio': msg.liveParameters.steerRatio,
+          'steerRatio': learnerSteerRatio,
           'stiffnessFactor': msg.liveParameters.stiffnessFactor,
           'angleOffsetAverageDeg': msg.liveParameters.angleOffsetAverageDeg,
         }
