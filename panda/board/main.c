@@ -730,8 +730,8 @@ void tick_handler(void) {
 
 
           // atom   SAFETY_NOOUTPUT
-          if (current_safety_mode != SAFETY_SILENT) {
-            set_safety_mode(SAFETY_SILENT, 0U);
+          if (current_safety_mode != SAFETY_NOOUTPUT) {
+            set_safety_mode(SAFETY_NOOUTPUT, 0U);
           }
           //if (power_save_status != POWER_SAVE_STATUS_ENABLED) {
           //  set_power_save_state(POWER_SAVE_STATUS_ENABLED);
@@ -836,10 +836,10 @@ int main(void) {
   microsecond_timer_init();
 
   // init to SILENT and can silent
-  set_safety_mode(SAFETY_SILENT, 0);
+  //set_safety_mode(SAFETY_SILENT, 0);
 
   // MDPS will hard fault if SAFETY_SILENT set
-  //set_safety_mode(SAFETY_NOOUTPUT, 0);
+  set_safety_mode(SAFETY_NOOUTPUT, 0);
 
   // enable CAN TXs
   current_board->enable_can_transceivers(true);
