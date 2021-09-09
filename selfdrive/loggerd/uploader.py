@@ -12,6 +12,7 @@ from cereal import log
 import cereal.messaging as messaging
 from common.api import Api
 from common.params import Params
+from common.realtime import sec_since_boot
 from selfdrive.hardware import TICI
 from selfdrive.loggerd.xattr_cache import getxattr, setxattr
 from selfdrive.loggerd.config import ROOT
@@ -207,6 +208,8 @@ class Uploader():
       stat = self.normal_upload(key, fn)
       if stat is not None and stat.status_code in (200, 201, 403, 412):
         cloudlog.event("upload_success" if stat.status_code != 412 else "upload_ignored", key=key, fn=fn, sz=sz, debug=True)
+        last_ping = int(sec_since_boot() * 1e9)
+        Params().put("LastAthenaPingTime", str(last_ping))        
         try:
           # tag file as uploaded
           setxattr(fn, UPLOAD_ATTR_NAME, UPLOAD_ATTR_VALUE)

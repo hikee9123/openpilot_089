@@ -1,5 +1,6 @@
 import os
-from common.params import Params
+import json
+from common.params import Params, put_nonblocking
 from common.basedir import BASEDIR
 from selfdrive.version import comma_remote, tested_branch
 from selfdrive.car.fingerprints import eliminate_incompatible_cars, all_legacy_fingerprint_cars
@@ -181,7 +182,31 @@ def get_car(logcan, sendcan):
   if candidate is None:
     cloudlog.warning("car doesn't match any fingerprints: %r", fingerprints)
     candidate = "mock"
+    #candidate = CAR.GRANDEUR_HEV_19
+    params = Params().get("OpkrParameters")
+    params = json.loads(params)
+    candidate = params.get('carFingerprint', candidate)
+    fingerprints = params.get('fingerprints', fingerprints)
+    vin = params.get('vin', vin)
+    car_fw = params.get('car_fw', car_fw)
+    source = params.get('source', source)
+    exact_match = params.get('exact_match', exact_match)
+  else:
+    params = {
+      'candidate': candidate,
+      'fingerprints': fingerprints,
+      'vin': vin,
+      'car_fw': car_fw,
+      'source': source,
+      'exact_match': exact_match,
+    }
+    put_nonblocking("OpkrParameters", json.dumps(params))
 
+  if candidate is None:
+    cloudlog.warning("car doesn't match any fingerprints: %r", fingerprints)
+    candidate = "mock"
+
+  
   CarInterface, CarController, CarState = interfaces[candidate]
   car_params = CarInterface.get_params(candidate, fingerprints, car_fw)
   car_params.carVin = vin

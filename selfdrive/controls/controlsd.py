@@ -28,6 +28,11 @@ from selfdrive.locationd.calibrationd import Calibration
 from selfdrive.hardware import HARDWARE, TICI, EON
 from selfdrive.manager.process_config import managed_processes
 
+# atom
+from selfdrive.car.hyundai.interface import CarInterface
+import common.loger as  trace1
+
+
 LDW_MIN_SPEED = 31 * CV.MPH_TO_MS
 LANE_DEPARTURE_THRESHOLD = 0.1
 STEER_ANGLE_SATURATION_TIMEOUT = 1.0 / DT_CTRL
@@ -73,7 +78,7 @@ class Controls:
       ignore = ['driverCameraState', 'managerState'] if SIMULATION else None
       self.sm = messaging.SubMaster(['deviceState', 'pandaState', 'modelV2', 'liveCalibration',
                                      'driverMonitoringState', 'longitudinalPlan', 'lateralPlan', 'liveLocationKalman',
-                                     'managerState', 'liveParameters', 'radarState'] + self.camera_packets + joystick_packet,
+                                     'managerState', 'liveParameters', 'radarState','liveNaviData'] + self.camera_packets + joystick_packet,
                                      ignore_alive=ignore, ignore_avg_freq=['radarState', 'longitudinalPlan'])
 
     self.can_sock = can_sock
@@ -173,6 +178,10 @@ class Controls:
     # controlsd is driven by can recv, expected at 100Hz
     self.rk = Ratekeeper(100, print_delay_threshold=None)
     self.prof = Profiler(False)  # off by default
+
+    # atom
+    self.openpilot_mode = 10
+
 
   def update_events(self, CS):
     """Compute carEvents from carState"""
@@ -315,14 +324,14 @@ class Controls:
         self.events.add(EventName.processNotRunning)
 
     # Only allow engagement with brake pressed when stopped behind another stopped car
-    speeds = self.sm['longitudinalPlan'].speeds
-    if len(speeds) > 1:
-      v_future = speeds[-1]
-    else:
-      v_future = 100.0
-    if CS.brakePressed and v_future >= STARTING_TARGET_SPEED \
-      and self.CP.openpilotLongitudinalControl and CS.vEgo < 0.3:
-      self.events.add(EventName.noTarget)
+    #speeds = self.sm['longitudinalPlan'].speeds
+    #if len(speeds) > 1:
+    #  v_future = speeds[-1]
+    #else:
+    #  v_future = 100.0
+    #if CS.brakePressed and v_future >= STARTING_TARGET_SPEED \
+    #  and self.CP.openpilotLongitudinalControl and CS.vEgo < 0.3:
+    #  self.events.add(EventName.noTarget)
 
   def data_sample(self):
     """Receive data from sockets and update carState"""
@@ -523,6 +532,12 @@ class Controls:
   def publish_logs(self, CS, start_time, actuators, lac_log):
     """Send actuators and hud commands to the car, send controlsstate and MPC logging"""
 
+    global trace1
+    log_alertTextMsg1 = trace1.global_alertTextMsg1
+    log_alertTextMsg2 = trace1.global_alertTextMsg2
+    log_alertTextMsg3 = trace1.global_alertTextMsg3
+
+
     CC = car.CarControl.new_message()
     CC.enabled = self.enabled
     CC.actuators = actuators
@@ -577,7 +592,8 @@ class Controls:
     if not self.read_only and self.initialized:
       # send car controls over can
       can_sends = self.CI.apply(CC)
-      self.pm.send('sendcan', can_list_to_can_capnp(can_sends, msgtype='sendcan', valid=CS.canValid))
+      if self.openpilot_mode:
+        self.pm.send('sendcan', can_list_to_can_capnp(can_sends, msgtype='sendcan', valid=CS.canValid))
 
     force_decel = (self.sm['driverMonitoringState'].awarenessStatus < 0.) or \
                   (self.state == State.softDisabling)
@@ -586,6 +602,8 @@ class Controls:
     params = self.sm['liveParameters']
     steer_angle_without_offset = math.radians(CS.steeringAngleDeg - params.angleOffsetAverageDeg)
     curvature = -self.VM.calc_curvature(steer_angle_without_offset, CS.vEgo)
+
+    angle_steers_des = actuators.steeringAngleDeg
 
     # controlsState
     dat = messaging.new_message('controlsState')
@@ -605,6 +623,7 @@ class Controls:
     controlsState.active = self.active
     controlsState.curvature = curvature
     controlsState.state = self.state
+    controlsState.steeringAngleDesiredDegDEPRECATED = angle_steers_des
     controlsState.engageable = not self.events.any(ET.NO_ENTRY)
     controlsState.longControlState = self.LoC.long_control_state
     controlsState.vPid = float(self.LoC.v_pid)
@@ -616,6 +635,11 @@ class Controls:
     controlsState.startMonoTime = int(start_time * 1e9)
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
+    controlsState.output = float(lac_log.output)
+    controlsState.alertTextMsg1 = str(log_alertTextMsg1)
+    controlsState.alertTextMsg2 = str(log_alertTextMsg2)
+    controlsState.alertTextMsg3 = str(log_alertTextMsg3)
+
 
     if self.joystick_mode:
       controlsState.lateralControlState.debugState = lac_log
@@ -667,6 +691,13 @@ class Controls:
     CS = self.data_sample()
     self.prof.checkpoint("Sample")
 
+    # atom
+    if self.read_only:
+      self.openpilot_mode = 0
+    elif CS.cruiseState.available:
+      self.openpilot_mode = 50
+
+
     self.update_events(CS)
 
     if not self.read_only and self.initialized:
@@ -682,6 +713,12 @@ class Controls:
     # Publish data
     self.publish_logs(CS, start_time, actuators, lac_log)
     self.prof.checkpoint("Sent")
+
+    if not CS.cruiseState.available and self.openpilot_mode:
+      if self.openpilot_mode > 0:
+        self.openpilot_mode -= 1
+      else:
+        self.openpilot_mode = 0    
 
   def controlsd_thread(self):
     while True:

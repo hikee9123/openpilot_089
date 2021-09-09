@@ -728,12 +728,14 @@ void tick_handler(void) {
             heartbeat_lost = true;
           }
 
+
+          // atom   SAFETY_NOOUTPUT
           if (current_safety_mode != SAFETY_SILENT) {
             set_safety_mode(SAFETY_SILENT, 0U);
           }
-          if (power_save_status != POWER_SAVE_STATUS_ENABLED) {
-            set_power_save_state(POWER_SAVE_STATUS_ENABLED);
-          }
+          //if (power_save_status != POWER_SAVE_STATUS_ENABLED) {
+          //  set_power_save_state(POWER_SAVE_STATUS_ENABLED);
+          //}
 
           // Also disable IR when the heartbeat goes missing
           current_board->set_ir_power(0U);
@@ -835,6 +837,9 @@ int main(void) {
 
   // init to SILENT and can silent
   set_safety_mode(SAFETY_SILENT, 0);
+
+  // MDPS will hard fault if SAFETY_SILENT set
+  //set_safety_mode(SAFETY_NOOUTPUT, 0);
 
   // enable CAN TXs
   current_board->enable_can_transceivers(true);
