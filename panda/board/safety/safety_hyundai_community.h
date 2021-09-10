@@ -21,7 +21,8 @@ AddrCheckStruct hyundai_community_addr_checks[] = {
   {.msg = {{608, 0, 8, .check_checksum = true, .max_counter = 3U, .expected_timestep = 10000U},
            {881, 0, 8, .expected_timestep = 10000U}, { 0 }}},
   {.msg = {{902, 0, 8, .expected_timestep = 20000U}, { 0 }, { 0 }}},
-  // {.msg = {{916, 0, 8, .expected_timestep = 20000U}}}, some Santa Fe does not have this msg, need to find alternative
+  // {.msg = {{916, 0, 8, .expected_timestep = 10000U}, { 0 }, { 0 }}}, some Santa Fe does not have this msg, need to find alternative
+  // {.msg = {{1057, 0, 8, .check_checksum = true, .max_counter = 15U, .expected_timestep = 20000U}, { 0 }, { 0 }}},
 };
 
 #define HYUNDAI_COMMUNITY_ADDR_CHECK_LEN (sizeof(hyundai_community_addr_checks) / sizeof(hyundai_community_addr_checks[0]))
