@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-
+//#include <QPushButton>
 
 
 #include "selfdrive/ui/qt/widgets/input.h"
@@ -215,10 +215,21 @@ CUserPanel::CUserPanel(QWidget* parent) : QFrame(parent)
       layout()->addWidget(btn);
     }
   }
-
-
-
+/*
   layout()->addWidget(horizontal_line());
+
+  QPushButton *restart_openpilot_btn = new QPushButton("Soft restart");
+  restart_openpilot_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
+  reset_layout->addWidget(restart_openpilot_btn);
+  QObject::connect(restart_openpilot_btn, &QPushButton::released, [=]() {
+    emit closeSettings();
+    QTimer::singleShot(1000, []() {
+      //Params().putBool("SoftRestartTriggered", true);
+    });
+  });
+*/
+  layout()->addWidget(horizontal_line());
+  
   layout()->addWidget( new CarSelectCombo() );
 }
 
