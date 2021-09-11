@@ -90,9 +90,9 @@ class CarState(CarStateBase):
 
       if self.time_delay_int > 100:
         pass
-      elif ret.vEgo < 5 or not left_lane or not right_lane or ret.steeringPressed or self.gasPressed or ret.leftBlinker or ret.rightBlinker:  # 15 km/h
+      elif ret.vEgo < 5 or not left_lane or not right_lane or ret.steeringPressed or ret.leftBlinker or ret.rightBlinker:  # 15 km/h
         self.time_delay_int = 100
-      elif self.time_delay_int <= 0:
+      elif self.time_delay_int <= 0 and  not self.gasPressed:
         self.engage_enable = True
 
       return  self.engage_enable
