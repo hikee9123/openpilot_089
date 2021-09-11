@@ -215,7 +215,7 @@ CUserPanel::CUserPanel(QWidget* parent) : QFrame(parent)
       layout()->addWidget(btn);
     }
   }
-/*
+
   layout()->addWidget(horizontal_line());
 
   QPushButton *restart_openpilot_btn = new QPushButton("Soft restart");
@@ -227,7 +227,7 @@ CUserPanel::CUserPanel(QWidget* parent) : QFrame(parent)
       //Params().putBool("SoftRestartTriggered", true);
     });
   });
-*/
+
   layout()->addWidget(horizontal_line());
   
   layout()->addWidget( new CarSelectCombo() );
