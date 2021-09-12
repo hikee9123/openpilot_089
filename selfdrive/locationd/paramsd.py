@@ -123,6 +123,7 @@ def main(sm=None, pm=None):
   # When driving in wet conditions the stiffness can go down, and then be too low on the next drive
   # Without a way to detect this we have to reset the stiffness every drive
   params['stiffnessFactor'] = 1.0
+  params['angleOffsetAverageDeg'] = 0.0
 
   learner = ParamsLearner(CP, params['steerRatio'], params['stiffnessFactor'], math.radians(params['angleOffsetAverageDeg']))
 
@@ -163,6 +164,8 @@ def main(sm=None, pm=None):
         steerRatio = learnerSteerRatio
 
       steerRatio = clip( steerRatio, 13.5, 19.5 )
+      angle_offset = clip( angle_offset, -10, 10 )
+      angle_offset_average = clip( angle_offset_average, -10, 10 )
 
       msg.liveParameters.posenetValid = True
       msg.liveParameters.sensorValid = True
