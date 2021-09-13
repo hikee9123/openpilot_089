@@ -57,11 +57,11 @@ class CarState(CarStateBase):
     elif self.time_break > 0:
       self.time_break -= 1
 
-    limitAngleDeg = 40
+    limitAngleDeg = 50
     if self.time_break:
       limitAngleDeg = 10
 
-    if not self.acc_mode and self.clu_Vanz < 35 and steeringAngleDeg > limitAngleDeg and ret.steeringPressed:
+    if not self.acc_mode and self.clu_Vanz < 40 and steeringAngleDeg > limitAngleDeg and ret.steeringPressed:
        return True
 
     return False
