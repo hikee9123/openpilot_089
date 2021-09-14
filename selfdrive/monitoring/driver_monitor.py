@@ -29,7 +29,7 @@ class DRIVER_MONITOR_SETTINGS():
 
     self._FACE_THRESHOLD = 0.5
     self._PARTIAL_FACE_THRESHOLD = 0.765 if TICI else 0.455
-    self._EYE_THRESHOLD = 0.25 if TICI else 0.45
+    self._EYE_THRESHOLD = 0.25 if TICI else 0.45  # 0.57
     self._SG_THRESHOLD = 0.83
     self._BLINK_THRESHOLD = 0.62 if TICI else 0.35 # 0.68
     self._BLINK_THRESHOLD_SLACK = 0.82 if TICI else 0.88
