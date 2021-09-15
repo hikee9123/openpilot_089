@@ -51,6 +51,7 @@ class CarInterface(CarInterfaceBase):
       # 호야  1500, 0.015, 0.0027
       #  1700, 0.01, 0.0029
       #  2000, 0.01, 0.003
+      #  1700, 0.21, 0.012
       ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
       ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
       ret.lateralTuning.lqr.c = [1., 0.]
