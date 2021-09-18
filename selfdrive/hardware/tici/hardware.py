@@ -1,4 +1,5 @@
 import os
+import re
 from functools import cached_property
 from enum import IntEnum
 import subprocess
@@ -312,12 +313,10 @@ class Tici(HardwareBase):
 
     return r
 
-
-
   def get_ip_address(self):
     try:
       wlan = subprocess.check_output(["ifconfig", "wlan0"], encoding='utf8').strip()
-      pattern = re.compile(r'inet addr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+      pattern = re.compile(r'inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
       return pattern.search(wlan).group(1)
     except Exception:
       return "--"
