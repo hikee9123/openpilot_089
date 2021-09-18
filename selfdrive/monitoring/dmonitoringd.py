@@ -23,7 +23,7 @@ def dmonitoringd_thread(sm=None, pm=None):
 
   v_cruise_last = 0
   driver_engaged = False
-
+  isOpenpilotViewEnabled = False
   # 10Hz <- dmonitoringmodeld
   while True:
     sm.update()
@@ -41,6 +41,10 @@ def dmonitoringd_thread(sm=None, pm=None):
       if driver_engaged:
         driver_status.update(Events(), True, sm['controlsState'].enabled, sm['carState'].standstill)
       v_cruise_last = v_cruise
+    else:
+      isOpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled")
+      if isOpenpilotViewEnabled:
+        driver_status.update(Events(), True, True, False)
 
     if sm.updated['modelV2']:
       driver_status.set_policy(sm['modelV2'])
