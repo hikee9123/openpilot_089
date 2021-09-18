@@ -8,6 +8,8 @@
 
 const int FACE_IMG_SIZE = 130;
 
+extern bool lock_current_video;
+
 DriverViewWindow::DriverViewWindow(QWidget* parent) : QWidget(parent) {
   setAttribute(Qt::WA_OpaquePaintEvent);
   layout = new QStackedLayout(this);
@@ -21,23 +23,25 @@ DriverViewWindow::DriverViewWindow(QWidget* parent) : QWidget(parent) {
   layout->addWidget(scene);
   layout->setCurrentWidget(scene);
 
-  m_binfill = false;
+ // m_binfill = false;
 }
 
 void DriverViewWindow::mouseReleaseEvent(QMouseEvent* e) {
+
+
   if (d_rec_btn.ptInRect(e->x(), e->y())) {
+    lock_current_video = !lock_current_video;
+    /*    
     m_binfill = !m_binfill;
     if (m_binfill) {
       system(qPrintable("screenrecord --size 960x540 --bit-rate 3000000 /storage/emulated/0/videos/drv_mon_preview.mp4&"));
     } else {
       QProcess::execute("killall -SIGINT screenrecord");
     }
+    */
     return;
   }
-  if (m_binfill) {
-    m_binfill = false;
-    QProcess::execute("killall -SIGINT screenrecord");
-  }
+
 
   emit done();
 }
@@ -54,6 +58,13 @@ void DriverViewScene::showEvent(QShowEvent* event) {
 
 void DriverViewScene::hideEvent(QHideEvent* event) {
   params.putBool("IsDriverViewEnabled", false);
+
+/*
+  if (m_binfill) {
+    m_binfill = false;
+    QProcess::execute("killall -SIGINT screenrecord");
+  }
+*/  
 }
 
 void DriverViewScene::frameUpdated() {
@@ -136,7 +147,9 @@ void DriverViewScene::paintEvent(QPaintEvent* event) {
 
     QRect rec = {1745, 905, 140, 140};
     p.setBrush(Qt::NoBrush);
-    if (m_binfill) p.setBrush(Qt::red);
+    //if (m_binfill) p.setBrush(Qt::red);
+
+    if (lock_current_video) p.setBrush(Qt::red);
     p.setPen(QPen(QColor(255, 255, 255, 80), 6));
     p.drawEllipse(rec);
     p.setPen(QColor(255, 255, 255, 200));
