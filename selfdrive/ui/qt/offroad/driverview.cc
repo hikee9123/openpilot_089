@@ -116,6 +116,7 @@ void DriverViewScene::paintEvent(QPaintEvent* event) {
     p.drawText(1050, 700, "eyesOnRoad:  " + QString::number(driver_state.getEyesOnRoad(), 'f', 2));
     p.drawText(1050, 750, "phoneUse:  " + QString::number(driver_state.getPhoneUse(), 'f', 2));
 
+/*
     QRect rec = {1745, 905, 140, 140};
     p.setBrush(Qt::NoBrush);
     if (infill) p.setBrush(Qt::red);
@@ -123,5 +124,6 @@ void DriverViewScene::paintEvent(QPaintEvent* event) {
     p.drawEllipse(rec);
     p.setPen(QColor(255, 255, 255, 200));
     p.drawText(rec, Qt::AlignCenter, QString("REC"));
+  */
   }
 }
