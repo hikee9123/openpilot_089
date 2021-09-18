@@ -162,6 +162,7 @@ CUserPanel::CUserPanel(QWidget* parent) : QFrame(parent)
           }
   });
 
+
   auto apk_exe = new ButtonControl("apk.py Install", "Install",
                                         "/data/openpilot/selfdrive/assets/addon/apk/apk.py 을 실행 합니다.");
   connect(apk_exe, &ButtonControl::clicked, [=]() 
