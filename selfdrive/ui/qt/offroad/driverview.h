@@ -48,6 +48,5 @@ private:
   QStackedLayout *layout;
 
 private:
-  //bool m_binfill;
   const Rect d_rec_btn = {1745, 905, 140, 140};
 };

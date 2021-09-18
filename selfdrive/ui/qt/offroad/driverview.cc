@@ -7,7 +7,7 @@
 #include "selfdrive/ui/qt/util.h"
 
 const int FACE_IMG_SIZE = 130;
-//bool m_binfill;
+
 
 extern bool lock_current_video;
 
@@ -24,7 +24,6 @@ DriverViewWindow::DriverViewWindow(QWidget* parent) : QWidget(parent) {
   layout->addWidget(scene);
   layout->setCurrentWidget(scene);
 
- // m_binfill = false;
 }
 
 void DriverViewWindow::mouseReleaseEvent(QMouseEvent* e) {
@@ -37,8 +36,7 @@ void DriverViewWindow::mouseReleaseEvent(QMouseEvent* e) {
       lock_current_video = 2;
 
     /*    
-    m_binfill = !m_binfill;
-    if (m_binfill) {
+    if (lock_current_video) {
       system(qPrintable("screenrecord --size 960x540 --bit-rate 3000000 /storage/emulated/0/videos/drv_mon_preview.mp4&"));
     } else {
       QProcess::execute("killall -SIGINT screenrecord");
@@ -65,8 +63,8 @@ void DriverViewScene::hideEvent(QHideEvent* event) {
   params.putBool("IsDriverViewEnabled", false);
 
 /*
-  if (m_binfill) {
-    m_binfill = false;
+  if (lock_current_video) {
+    lock_current_video = 0;
     QProcess::execute("killall -SIGINT screenrecord");
   }
 */  
