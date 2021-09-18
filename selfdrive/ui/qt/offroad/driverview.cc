@@ -148,7 +148,7 @@ void DriverViewScene::paintEvent(QPaintEvent* event) {
     p.drawText(1050, 750, "phoneUse:  " + QString::number(driver_state.getPhoneUse(), 'f', 2));
 
 
-    QRect rec = d_rec_btn;// {1745, 905, 140, 140};
+    QRect rec = {1745, 905, 140, 140}; // d_rec_btn;// 
     p.setBrush(Qt::NoBrush);
     //if (m_binfill) p.setBrush(Qt::red);
 
