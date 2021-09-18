@@ -42,7 +42,7 @@ def dmonitoringd_thread(sm=None, pm=None):
         driver_status.update(Events(), True, sm['controlsState'].enabled, sm['carState'].standstill)
       v_cruise_last = v_cruise
     else:
-      isOpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled")
+      isOpenpilotViewEnabled = Params().get("IsOpenpilotViewEnabled")
       if isOpenpilotViewEnabled:
         driver_status.update(Events(), True, True, False)
 
