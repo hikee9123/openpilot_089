@@ -23,7 +23,7 @@ def dmonitoringd_thread(sm=None, pm=None):
 
   v_cruise_last = 0
   driver_engaged = False
-  isOpenpilotViewEnabled = False
+  #isOpenpilotViewEnabled = False
   # 10Hz <- dmonitoringmodeld
   while True:
     sm.update()
