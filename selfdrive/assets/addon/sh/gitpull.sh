@@ -21,6 +21,7 @@ if [ "$HASH" != "$REMOTE_HASH" ]; then
     reboot
   elif [ -f /TICI ]; then
     sudo chmod 777 /data/openpilot/selfdrive/assets/addon/sh/gitcommit.sh
+    sudo chmod 777 /data/openpilot/selfdrive/assets/addon/sh/gitpull.sh
     sudo chmod 777 /data/openpilot/selfdrive/assets/addon/sh/run_mixplorer.sh  
     sudo reboot
   fi
