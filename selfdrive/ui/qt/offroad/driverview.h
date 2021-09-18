@@ -48,5 +48,5 @@ private:
   QStackedLayout *layout;
 
 private:
-  const Rect d_rec_btn = {1745, 905, 140, 140};
+  
 };

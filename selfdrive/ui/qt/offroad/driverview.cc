@@ -8,7 +8,7 @@
 
 const int FACE_IMG_SIZE = 130;
 
-
+const Rect d_rec_btn = {1745, 905, 140, 140};
 extern bool lock_current_video;
 
 DriverViewWindow::DriverViewWindow(QWidget* parent) : QWidget(parent) {
@@ -35,7 +35,7 @@ void DriverViewWindow::mouseReleaseEvent(QMouseEvent* e) {
     else
       lock_current_video = 2;
 
-    /*    
+    /*   
     if (lock_current_video) {
       system(qPrintable("screenrecord --size 960x540 --bit-rate 3000000 /storage/emulated/0/videos/drv_mon_preview.mp4&"));
     } else {
@@ -148,7 +148,7 @@ void DriverViewScene::paintEvent(QPaintEvent* event) {
     p.drawText(1050, 750, "phoneUse:  " + QString::number(driver_state.getPhoneUse(), 'f', 2));
 
 
-    QRect rec = {1745, 905, 140, 140};
+    QRect rec = d_rec_btn;// {1745, 905, 140, 140};
     p.setBrush(Qt::NoBrush);
     //if (m_binfill) p.setBrush(Qt::red);
 

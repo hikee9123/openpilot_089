@@ -213,7 +213,7 @@ class PowerMonitoring:
     should_shutdown = False
     # Wait until we have shut down charging before powering down
     should_shutdown |= (not panda_charging and not battery_changing)
-    print( "  panda_charging={}  disable_charging={}  battery_changing={}".format(panda_charging, disable_charging, battery_changing) )
+    #print( "  panda_charging={}  disable_charging={}  battery_changing={}".format(panda_charging, disable_charging, battery_changing) )
     should_shutdown |= (batteryPercent < BATT_PERC_OFF)
     should_shutdown &= started_seen or (now > MIN_ON_TIME_S)
     return should_shutdown
