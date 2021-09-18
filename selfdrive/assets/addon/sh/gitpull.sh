@@ -13,12 +13,16 @@ REMOTE_HASH=$(git rev-parse --verify origin/$BRANCH)
 /data/data/com.termux/files/usr/bin/git pull
 
 
-
 if [ "$HASH" != "$REMOTE_HASH" ]; then
   if [ -f /EON ]; then
-     reboot
+    chmod 777 /data/openpilot/selfdrive/assets/addon/sh/gitcommit.sh
+    chmod 777 /data/openpilot/selfdrive/assets/addon/sh/gitpull.sh
+    chmod 777 /data/openpilot/selfdrive/assets/addon/sh/run_mixplorer.sh  
+    reboot
   elif [ -f /TICI ]; then
-     sudo reboot
+    sudo chmod 777 /data/openpilot/selfdrive/assets/addon/sh/gitcommit.sh
+    sudo chmod 777 /data/openpilot/selfdrive/assets/addon/sh/run_mixplorer.sh  
+    sudo reboot
   fi
   
 fi
