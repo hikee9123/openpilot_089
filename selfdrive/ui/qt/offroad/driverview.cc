@@ -7,6 +7,7 @@
 #include "selfdrive/ui/qt/util.h"
 
 const int FACE_IMG_SIZE = 130;
+bool m_binfill;
 
 DriverViewWindow::DriverViewWindow(QWidget* parent) : QWidget(parent) {
   setAttribute(Qt::WA_OpaquePaintEvent);
