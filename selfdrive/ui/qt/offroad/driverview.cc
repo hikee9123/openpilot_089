@@ -31,7 +31,11 @@ void DriverViewWindow::mouseReleaseEvent(QMouseEvent* e) {
 
 
   if (d_rec_btn.ptInRect(e->x(), e->y())) {
-    lock_current_video = !lock_current_video;
+    if( lock_current_video )
+      lock_current_video = 0;
+    else
+      lock_current_video = 2;
+
     /*    
     m_binfill = !m_binfill;
     if (m_binfill) {

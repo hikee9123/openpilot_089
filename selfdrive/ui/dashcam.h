@@ -230,7 +230,7 @@ static void rotate_video()
 static void screen_toggle_record_state()
 {
   //if (captureState == CAPTURE_STATE_CAPTURING)
-  if( lock_current_video == true )
+  if( lock_current_video  )
   {
     stop_capture();
     lock_current_video = false;
@@ -368,11 +368,12 @@ static void update_dashcam(UIState *s)
   screen_draw_button(s);
 
 
-  if( lock_current_video == true  )
+  if( lock_current_video  )
   {
     float v_ego = s->scene.car_state.getVEgo();
     int engaged = s->scene.controls_state.getEngageable();
-    if(  (v_ego < 0.1 || !engaged) )
+
+    if(  (lock_current_video == 1) && (v_ego < 0.1 || !engaged) )
     {
       elapsed_time = nCurrTimeSec - stop_time;
       if( captureState == CAPTURE_STATE_CAPTURING && elapsed_time > 2 )
