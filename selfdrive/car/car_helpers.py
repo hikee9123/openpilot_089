@@ -184,13 +184,14 @@ def get_car(logcan, sendcan):
     candidate = "mock"
     #candidate = CAR.GRANDEUR_HEV_19
     params = Params().get("OpkrParameters")
-    params = json.loads(params)
-    candidate = params.get('carFingerprint', candidate)
-    fingerprints = params.get('fingerprints', fingerprints)
-    vin = params.get('vin', vin)
-    car_fw = params.get('car_fw', car_fw)
-    source = params.get('source', source)
-    exact_match = params.get('exact_match', exact_match)
+    if params is not None:
+      params = json.loads(params)
+      candidate = params.get('carFingerprint', candidate)
+      fingerprints = params.get('fingerprints', fingerprints)
+      vin = params.get('vin', vin)
+      car_fw = params.get('car_fw', car_fw)
+      source = params.get('source', source)
+      exact_match = params.get('exact_match', exact_match)
   else:
     params = {
       'candidate': candidate,
