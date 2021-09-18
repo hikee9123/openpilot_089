@@ -129,8 +129,8 @@ def manager_thread():
   if enableLogger:
     # save boot log
     subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
-  #else:
-  #  ignore += ["loggerd","logmessaged","deleter","tombstoned","uploader","updated"] #,"androidd"]
+  else:
+    ignore += ["loggerd","logmessaged","deleter","tombstoned","uploader","updated"] #,"androidd"]
     # ignore += ["loggerd","logmessaged","deleter","tombstoned","uploader","updated","androidd"] #,"rtshield"]
     # ignore += ["manage_athenad","proclogd","clocksd","timezoned"]
 
