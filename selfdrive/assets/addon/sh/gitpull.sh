@@ -12,6 +12,13 @@ HASH=$(git rev-parse HEAD)
 REMOTE_HASH=$(git rev-parse --verify origin/$BRANCH)
 /data/data/com.termux/files/usr/bin/git pull
 
+
+
 if [ "$HASH" != "$REMOTE_HASH" ]; then
-  reboot
+  if [ -f /EON ]; then
+     reboot
+  elif [ -f /TICI ]; then
+     sudo reboot
+  fi
+  
 fi
