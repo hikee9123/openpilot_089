@@ -41,6 +41,8 @@ signals:
 protected:
   void mouseReleaseEvent(QMouseEvent* e) override;
 
+  bool m_binfill;
+
 private:
   CameraViewWidget *cameraView;
   DriverViewScene *scene;
