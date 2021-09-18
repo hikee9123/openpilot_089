@@ -191,7 +191,12 @@ def map_return():
 
 
 def main():
-  navi_on_boot = int(Params().get("OpkrRunNaviOnBoot"))
+  param_navi = Params().get("OpkrRunNaviOnBoot")
+  if param_navi is not None:
+    navi_on_boot = int(param_navi)
+  else:
+    navi_on_boot = 0
+
   if navi_on_boot:
     map_exec()
 
