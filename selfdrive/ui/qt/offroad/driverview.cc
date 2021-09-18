@@ -7,7 +7,7 @@
 #include "selfdrive/ui/qt/util.h"
 
 const int FACE_IMG_SIZE = 130;
-bool m_binfill;
+//bool m_binfill;
 
 extern bool lock_current_video;
 
