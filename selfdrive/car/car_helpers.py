@@ -194,16 +194,16 @@ def get_car(logcan, sendcan):
         car_fw = params.get('car_fw', car_fw)
         source = params.get('source', source)
         exact_match = params.get('exact_match', exact_match)
-      else:
-        params = {
-          'candidate': candidate,
-          'fingerprints': fingerprints,
-          'vin': vin,
-          'car_fw': car_fw,
-          'source': source,
-          'exact_match': exact_match,
-        }
-        put_nonblocking("OpkrParameters", json.dumps(params))
+  elif EON:
+    params = {
+      'candidate': candidate,
+      'fingerprints': fingerprints,
+      'vin': vin,
+      'car_fw': car_fw,
+      'source': source,
+      'exact_match': exact_match,
+    }
+    put_nonblocking("OpkrParameters", json.dumps(params))
 
   if candidate is None:
     cloudlog.warning("car doesn't match any fingerprints: %r", fingerprints)
